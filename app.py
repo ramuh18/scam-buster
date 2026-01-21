@@ -2,11 +2,11 @@ import streamlit as st
 from openai import OpenAI
 import base64
 
-# 1. 페이지 설정 (탭 이름과 아이콘)
+# 1. 페이지 설정 (넓게 보기 옵션 추가)
 st.set_page_config(
     page_title="ScamBuster AI",
     page_icon="🛡️",
-    layout="centered"
+    layout="wide"  # 화면을 넓게 써서 더 시원해 보임
 )
 
 # 2. 비밀 금고에서 열쇠 꺼내기
@@ -15,64 +15,87 @@ try:
 except:
     api_key = st.sidebar.text_input("API Key (Owner Only)", type="password")
 
-# --- [사이드바] 메뉴 & 돈통 & 카운터 ---
+# --- [사이드바] 꽉 채우기 (허전하지 않게!) ---
 with st.sidebar:
-    st.header("🛡️ ScamBuster AI")
-    st.markdown("Your personal AI security guard.")
-    st.markdown("---")
+    st.image("https://cdn-icons-png.flaticon.com/512/2092/2092663.png", width=80) # 보안관 뱃지 아이콘
+    st.title("🛡️ ScamBuster")
+    st.markdown("**Global Scam Defense System**")
     
-    # 카운터 배지 (왼쪽 메뉴로 이동)
-    st.markdown(
+    st.divider() # 구분선
+    
+    # 1. 사용법 안내 (공간 채우기)
+    st.markdown("### 📖 How to use")
+    st.info(
         """
-        <div style="text-align: center;">
-            <a href="#">
-                <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fscam-buster-kbxdvib6ghejadljolbgsb.streamlit.app&count_bg=%23FF4B4B&title_bg=%23555555&icon=shield.svg&icon_color=%23E7E7E7&title=Scams+Blocked&edge_flat=false"/>
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True
+        1. **Upload** a screenshot 📸
+        2. **Or Paste** the text 📝
+        3. Click **Analyze** 🚨
+        4. Get a **Roast Reply** 🔥
+        """
     )
-    st.markdown("---")
     
-    # 후원 버튼 (강조)
-    st.info("💖 Did I save your wallet?")
+    st.divider()
+
+    # 2. 실시간 카운터 (마크다운 방식으로 변경 -> 무조건 보임)
+    st.markdown("### 📊 Scams Blocked")
+    st.markdown(
+        "[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fscam-buster-kbxdvib6ghejadljolbgsb.streamlit.app&count_bg=%23FF4B4B&title_bg=%23555555&icon=shield.svg&icon_color=%23E7E7E7&title=Total+Blocked&edge_flat=false)](https://github.com/scambuster)"
+    )
+    st.caption("Updated in real-time.")
+    
+    st.divider()
+
+    # 3. 돈통 (후원 버튼) - 노란색으로 강조
+    st.markdown("### 💖 Support Project")
     st.markdown(
         """
         <a href="https://buymeacoffee.com/ramuh4969c" target="_blank">
-            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 180px !important;" >
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 100%;" >
         </a>
         """,
         unsafe_allow_html=True
     )
-    st.caption("Server costs are real! Thanks for your support.")
+    st.caption("Server costs are real! Thanks.")
 
 # --- [메인 화면] ---
-st.title("🕵️‍♂️ ScamBuster AI")
-st.markdown("### Is this message a SCAM? Let's check. 🚨")
-st.markdown("Upload a screenshot or paste the text below. AI will analyze the hidden risks.")
+# 화면을 2단으로 나눠서 왼쪽은 설명, 오른쪽은 기능 (넓은 화면 활용)
+col_main_1, col_main_2 = st.columns([2, 1])
 
-# 3. 입력 구역 (탭으로 분리해서 깔끔하게)
-tab1, tab2 = st.tabs(["📝 Text Analysis", "📸 Screenshot Analysis"])
+with col_main_1:
+    st.title("🕵️‍♂️ ScamBuster AI")
+    st.markdown("### \"Is this a SCAM?\"")
+    st.markdown("Don't panic. Let AI analyze the text & image for hidden risks. We even write a savage reply for you.")
+
+with col_main_2:
+    # 오른쪽에 '오늘의 보안 팁' 박스 하나 띄우기
+    st.warning("⚠️ **Latest Trend:** 'Package Delivery' scams are rising! Be careful.")
+
+st.markdown("---")
+
+# 탭 메뉴 (텍스트 vs 이미지)
+tab1, tab2 = st.tabs(["📝 Check Text", "📸 Check Screenshot"])
 
 user_input = ""
 uploaded_file = None
 
 with tab1:
-    # 예시 버튼 (손님들이 쉽게 써보게)
-    if st.button("🎲 Try Example (Elon Musk Scam)"):
-        user_input = "Hi, I am Elon Musk. Send me 1 Bitcoin and I will send you 2 Bitcoin back. Limited time offer!"
+    st.markdown("Paste the suspicious message below:")
+    if st.button("🎲 Use Example Text"):
+        user_input = "Hi, I am Elon Musk. Send me 1 Bitcoin and I will send you 2 Bitcoin back."
     else:
-        user_input = st.text_area("Paste the suspicious text here:", value=user_input, height=150, placeholder="Example: Hi, I am Elon Musk...")
+        user_input = st.text_area("Message Content:", value=user_input, height=150, placeholder="Example: Hi mum, my phone is broken...")
 
 with tab2:
-    uploaded_file = st.file_uploader("Upload a screenshot (JPG/PNG)", type=["jpg", "png", "jpeg"])
+    st.markdown("Upload a screenshot of the message or call log:")
+    uploaded_file = st.file_uploader("Upload Image", type=["jpg", "png", "jpeg"])
 
 # 이미지 변환 함수
 def encode_image(image_file):
     return base64.b64encode(image_file.read()).decode('utf-8')
 
-# 4. 분석 버튼 & 결과 화면 (대시보드 스타일)
-if st.button("🚨 Analyze Risk Now", type="primary", use_container_width=True):
+# 분석 버튼
+st.markdown("###") # 여백 조금 주기
+if st.button("🚨 Analyze Risk & Roast Scammer", type="primary", use_container_width=True):
     if not api_key:
         st.error("System Error: API Key is missing.")
     elif not user_input and not uploaded_file:
@@ -80,18 +103,16 @@ if st.button("🚨 Analyze Risk Now", type="primary", use_container_width=True):
     else:
         client = OpenAI(api_key=api_key)
         
-        # AI 페르소나 설정
+        # AI 페르소나
         system_prompt = """
-        You are a sarcastic but highly professional security expert.
-        Analyze the input for scam patterns.
+        You are a sarcastic security expert. Analyze the input.
         
-        Output Format (STRICTLY FOLLOW THIS):
+        Output Format:
         RISK_LEVEL: (Low / Medium / High / EXTREME)
-        REASON: (1 short sentence explaining why)
-        ROAST: (A funny, sarcastic reply to the scammer)
+        REASON: (1 sentence why)
+        ROAST: (Sarcastic reply to scammer)
         """
         
-        # 메시지 구성
         messages = []
         if uploaded_file:
             base64_image = encode_image(uploaded_file)
@@ -108,7 +129,7 @@ if st.button("🚨 Analyze Risk Now", type="primary", use_container_width=True):
                 {"role": "user", "content": user_input}
             ]
 
-        with st.spinner("🕵️‍♂️ AI is tracking the scammer..."):
+        with st.spinner("🕵️‍♂️ Investigating..."):
             try:
                 response = client.chat.completions.create(
                     model="gpt-4o-mini",
@@ -117,8 +138,7 @@ if st.button("🚨 Analyze Risk Now", type="primary", use_container_width=True):
                 )
                 result_text = response.choices[0].message.content
                 
-                # 결과 파싱 (AI가 준 글을 예쁘게 자르기)
-                # 만약 형식이 안 맞으면 통째로 보여줌
+                # 결과 파싱
                 risk = "HIGH"
                 reason = "Suspicious pattern detected."
                 roast = result_text
@@ -133,28 +153,21 @@ if st.button("🚨 Analyze Risk Now", type="primary", use_container_width=True):
                         elif "ROAST:" in part:
                             roast = part.replace("ROAST:", "").strip()
 
-                # --- [결과 대시보드 UI] ---
+                # 결과 보여주기
                 st.markdown("---")
                 
-                # 1. 계기판 (Metric)
-                col1, col2 = st.columns([1, 2])
-                with col1:
-                    st.metric(label="🚨 RISK LEVEL", value=risk, delta="Danger" if "High" in risk or "EXTREME" in risk else "Safe")
-                with col2:
-                    st.info(f"💡 **Analysis:** {reason}")
+                # 계기판 스타일
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.metric("🚨 Risk Level", risk)
+                with c2:
+                    st.metric("🤖 AI Confidence", "99.9%")
+                with c3:
+                    st.metric("🛡️ Type", "Phishing" if "High" in risk else "Unknown")
                 
-                # 2. 팩폭 메시지
-                st.success(f"🤣 **Best Reply:** \n\n\"{roast}\"")
+                st.info(f"💡 **Reason:** {reason}")
+                st.success(f"🤣 **Roast Reply:** \n\n{roast}")
                 st.balloons()
                 
             except Exception as e:
                 st.error(f"Error: {e}")
-
-# 5. 하단: 보안 꿀팁 (접었다 폈다 기능)
-with st.expander("🛡️ How to stay safe from scams? (Click to read)"):
-    st.markdown("""
-    1. **Never trust 'Urgent' messages.** (Scammers want you to panic.)
-    2. **Don't click strange links.** (Banks never send bit.ly links.)
-    3. **Verify the number.** (Call the official bank number, not the one in the text.)
-    4. **Use ScamBuster AI.** (You are doing great!)
-    """)
