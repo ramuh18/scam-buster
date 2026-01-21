@@ -2,14 +2,20 @@ import streamlit as st
 from openai import OpenAI
 import base64
 
-# --- [1] 디자인: '다크 사이버 테마' (가독성 최우선) ---
+# --- [1] 페이지 기본 설정 (가장 먼저 와야 함!) ---
 st.set_page_config(
     page_title="스팸버스터 AI",
     page_icon="🛡️",
     layout="centered"
 )
 
-# 다크 모드 CSS (검은 배경 + 흰 글씨 + 네온 포인트)
+# --- [2] 네이버 소유권 확인 (사장님 전용 코드) ---
+naver_meta = """
+<meta name="naver-site-verification" content="4e704cc3354846af994ad69da77cf2066508fc0f" />
+"""
+st.markdown(naver_meta, unsafe_allow_html=True)
+
+# --- [3] 디자인: '다크 사이버 테마' (가독성 최우선) ---
 st.markdown(
     """
     <style>
@@ -58,13 +64,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- [2] 비밀 열쇠 연동 ---
+# --- [4] 비밀 열쇠 연동 ---
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
 except:
     api_key = st.sidebar.text_input("🔑 관리자 키 입력", type="password")
 
-# --- [3] 헤더 & 카운터 배지 ---
+# --- [5] 헤더 & 카운터 배지 ---
 col_h1, col_h2 = st.columns([3, 1])
 with col_h1:
     st.title("🛡️ SCAM BUSTER")
@@ -80,7 +86,7 @@ with col_h2:
 
 st.markdown("---")
 
-# --- [4] 입력 섹션 ---
+# --- [6] 입력 섹션 ---
 st.info("💡 팁: 어두운 곳에서도 잘 보이는 '다크 모드'입니다. 텍스트나 이미지를 넣어주세요.")
 
 with st.container():
@@ -96,7 +102,7 @@ with st.container():
 def encode_image(image_file):
     return base64.b64encode(image_file.read()).decode('utf-8')
 
-# --- [5] 분석 버튼 ---
+# --- [7] 분석 버튼 ---
 st.markdown("<br>", unsafe_allow_html=True)
 if st.button("🚀 분석 시작 (ANALYZE)", type="primary", use_container_width=True):
     if not api_key:
@@ -155,14 +161,14 @@ if st.button("🚀 분석 시작 (ANALYZE)", type="primary", use_container_width
             except Exception as e:
                 st.error(f"오류 발생: {e}")
 
-# --- [6] 하단 배너 (쿠팡 파트너스) ---
+# --- [8] 하단 배너 (쿠팡 파트너스) ---
 st.markdown("---")
 st.subheader("🛡️ 보안 추천 (SECURITY)")
 
 col_a, col_b = st.columns(2, gap="medium")
 
-# 사장님 쿠팡 링크로 변경 필요!
-coupang_link_1 = "https://link.coupang.com/a/dwJL7d"
+# ★★★ [중요] 사장님의 쿠팡 링크로 꼭 바꾸세요! ★★★
+coupang_link_1 = "https://link.coupang.com/a/dwKg6d"
 coupang_link_2 = "https://link.coupang.com/a/dwJQiU"
 
 with col_a:
@@ -190,4 +196,4 @@ with col_b:
     )
 
 st.markdown("<br>", unsafe_allow_html=True)
-st.caption("© 2026 ScamBuster AI. (이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다)")
+st.caption("© 2026 ScamBuster AI. (이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.)")
