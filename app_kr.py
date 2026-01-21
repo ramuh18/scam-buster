@@ -9,7 +9,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- [디자인 스타일 시트: 전문 보안 툴 느낌] ---
+# --- [디자인 스타일 시트: 전문가 전용 레드 포인트 테마] ---
 st.markdown(
     """
     <style>
@@ -35,31 +35,31 @@ st.markdown(
         margin-bottom: 2rem !important;
     }
 
-    /* 사이드바 박스 스타일 */
-    .sidebar-box {
-        background-color: #f3f4f6;
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        border: 1px solid #e5e7eb;
+    /* ★ 사장님 요청: 분석 버튼 빨간색 강조 ★ */
+    div.stButton > button {
+        background-color: #E60012 !important; /* 강렬한 레드 */
+        color: #ffffff !important;
+        font-size: 22px !important;
+        font-weight: 700 !important;
+        border-radius: 12px !important;
+        height: 4.5rem !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(230, 0, 18, 0.3) !important;
+        transition: 0.3s ease-in-out !important;
     }
     
+    div.stButton > button:hover {
+        background-color: #B3000E !important; /* 호버 시 조금 더 진한 레드 */
+        transform: scale(1.01);
+    }
+
+    /* 사이드바 박스 스타일 */
     .sidebar-label {
         font-size: 12px;
         font-weight: 700;
         color: #9ca3af;
         text-transform: uppercase;
         margin-bottom: 5px;
-    }
-
-    /* 버튼 스타일 */
-    .stButton button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        font-weight: 600 !important;
-        border-radius: 10px !important;
-        height: 3.5rem !important;
-        border: none !important;
     }
 
     /* 결과 리포트 카드 */
@@ -69,6 +69,8 @@ st.markdown(
         border-radius: 20px;
         border: 1px solid #f3f4f6;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        font-size: 18px !important;
+        line-height: 1.8;
     }
     </style>
     """,
@@ -89,7 +91,6 @@ with st.sidebar:
     
     st.divider()
 
-    # 시스템 상태 섹션
     st.markdown('<p class="sidebar-label">System Status</p>', unsafe_allow_html=True)
     st.success("● AI Engine: Online (GPT-4o)")
     st.info("● Network: Asia-Pacific Secured")
@@ -99,18 +100,16 @@ with st.sidebar:
     
     st.divider()
 
-    # 분석 가이드 섹션
     st.markdown("### 🛠️ Analysis Tools")
     st.markdown("""
-    - **Heuristic Scanning:** 문자 패턴 매칭
-    - **OCR Analysis:** 이미지 텍스트 해독
-    - **NLP Deep Learning:** 맥락 및 의도 파악
-    - **Vulnerability Check:** 보안 취약점 점검
+    - **Heuristic Scanning**
+    - **OCR Analysis**
+    - **NLP Deep Learning**
+    - **Vulnerability Check**
     """)
 
     st.divider()
     
-    # 통계 섹션 (임의 수치로 신뢰도 상승)
     st.markdown('<p class="sidebar-label">Global Statistics</p>', unsafe_allow_html=True)
     col_s1, col_s2 = st.columns(2)
     col_s1.metric("Accuracy", "99.8%")
@@ -120,14 +119,13 @@ with st.sidebar:
 st.markdown('<p class="main-title">ScamBuster</p>', unsafe_allow_html=True)
 st.markdown('<p class="sub-title">인공지능 기반 사기 패턴 분석 및 정밀 판독 시스템</p>', unsafe_allow_html=True)
 
-# 메인 기능 탭
 tab1, tab2 = st.tabs(["💬 텍스트 데이터 분석", "🖼️ 이미지/스크린샷 검사"])
 
 user_input = ""
 uploaded_file = None
 
 with tab1:
-    user_input = st.text_area("의심 문구 또는 메신저 대화 내용을 입력하십시오.", height=200, placeholder="분석할 데이터를 여기에 입력하세요.")
+    user_input = st.text_area("분석할 문자 또는 메신저 대화 내용을 입력하십시오.", height=200, placeholder="여기에 내용을 붙여넣으세요.")
 
 with tab2:
     uploaded_file = st.file_uploader("검증할 스크린샷 파일을 업로드하십시오.", type=["jpg", "png", "jpeg"])
@@ -143,7 +141,7 @@ if st.button("🚨 정밀 분석 리포트 생성 (Generate Report)", use_contai
         st.warning("분석할 데이터를 제공해 주십시오.")
     else:
         client = OpenAI(api_key=api_key)
-        system_prompt = "당신은 냉철한 사이버 보안 분석관입니다. 위험 수준, 사기 수법 명칭, 분석 근거, 대응 가이드를 전문가적인 어조로 작성하세요."
+        system_prompt = "당신은 냉철한 사이버 보안 분석관입니다. 위험 수준, 사기 수법 명칭, 분석 근거, 대응 가이드를 전문가적인 어조로 한국어로 보고서 형태로 작성하세요."
         
         with st.spinner("보안 엔진 스캐닝 중..."):
             try:
@@ -168,7 +166,6 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.divider()
 st.markdown("#### 🛡️ 자산 보호를 위한 추천 솔루션")
 
-# 하단 배너 (고대비 세련된 디자인)
 st.markdown(
     """
     <div style="display: flex; gap: 15px; justify-content: space-between; align-items: center;">
@@ -183,6 +180,6 @@ st.markdown(
             </div>
         </a>
     </div>
-    <p style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 15px;">본 포스팅은 쿠팡 파트너스 활동의 일환으로 수수료를 제공받을 수 있습니다.</p>
+    <p style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 15px;">본 포스팅은 쿠팡 파트너스 활동의 일환으로 수수료를 제공받습니다.</p>
     """, unsafe_allow_html=True
 )
