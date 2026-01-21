@@ -58,7 +58,7 @@ if st.button("🚨 Analyze Risk & Roast"):
                 st.error(f"Error: {e}")
 
 # 하단: 돈 버는 버튼 (예시)
-st.markdown("---")
+st.markdown("[☕ Buy me a coffee (Support)] (https://buymeacoffee.com/ramuh4969c)")
 st.info("💡 Tip: Never click links from strangers!")
 # 나중에 여기에 광고나 후원 링크를 넣으면 됩니다.
 st.markdown("[☕ Buy me a coffee (Support)] (#)")
