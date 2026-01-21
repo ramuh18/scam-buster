@@ -37,7 +37,7 @@ st.markdown(
 
     /* 분석 버튼 빨간색 강조 */
     div.stButton > button {
-        background-color: #E60012 !important; /* 강렬한 레드 */
+        background-color: #E60012 !important; 
         color: #ffffff !important;
         font-size: 22px !important;
         font-weight: 700 !important;
@@ -81,39 +81,39 @@ st.markdown(
 try:
     api_key = st.secrets["OPENAI_API_KEY"]
 except:
-    api_key = st.sidebar.text_input("🔑 ADMIN ACCESS KEY", type="password")
+    api_key = st.sidebar.text_input("🔑 관리자 액세스 키", type="password")
 
-# --- [사이드바: 보안 관제 대시보드 테마] ---
+# --- [사이드바: 보안 관제 대시보드 테마 - 한글화 완료] ---
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/2092/2092663.png", width=60)
-    st.title("SECURE OS")
-    st.caption("AI-Powered Fraud Detection v1.2.4")
+    st.title("보안 운영체제")
+    st.caption("AI 기반 사기 탐지 시스템 v1.2.4")
     
     st.divider()
 
-    st.markdown('<p class="sidebar-label">System Status</p>', unsafe_allow_html=True)
-    st.success("● AI Engine: Online (GPT-4o)")
-    st.info("● Network: Asia-Pacific Secured")
+    st.markdown('<p class="sidebar-label">시스템 상태</p>', unsafe_allow_html=True)
+    st.success("● AI 엔진: 정상 작동 중 (GPT-4o)")
+    st.info("● 네트워크: 아시아-태평양 보안망")
     
-    st.markdown('<p class="sidebar-label">Latest Threats</p>', unsafe_allow_html=True)
-    st.error("⚠️ Alert: New SMS Phishing Pattern")
+    st.markdown('<p class="sidebar-label">최신 위협 알림</p>', unsafe_allow_html=True)
+    st.error("⚠️ 경고: 신종 스미싱 패턴 감지")
     
     st.divider()
 
-    st.markdown("### 🛠️ Analysis Tools")
+    st.markdown("### 🛠️ 분석 도구")
     st.markdown("""
-    - **Heuristic Scanning**
-    - **OCR Analysis**
-    - **NLP Deep Learning**
-    - **Vulnerability Check**
+    - **패턴 매칭 스캔**
+    - **이미지 텍스트(OCR) 분석**
+    - **딥러닝 문맥 파악**
+    - **취약점 정밀 점검**
     """)
 
     st.divider()
     
-    st.markdown('<p class="sidebar-label">Global Statistics</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sidebar-label">글로벌 통계</p>', unsafe_allow_html=True)
     col_s1, col_s2 = st.columns(2)
-    col_s1.metric("Accuracy", "99.8%")
-    col_s2.metric("Latency", "1.2s")
+    col_s1.metric("분석 정확도", "99.8%")
+    col_s2.metric("응답 속도", "1.2초")
 
 # --- [메인 화면] ---
 st.markdown('<p class="main-title">ScamBuster</p>', unsafe_allow_html=True)
@@ -134,9 +134,9 @@ def encode_image(image_file):
     return base64.b64encode(image_file.read()).decode('utf-8')
 
 # 분석 실행 버튼
-if st.button("🚨 정밀 분석 리포트 생성 (Generate Report)", use_container_width=True):
+if st.button("🚨 정밀 분석 리포트 생성", use_container_width=True):
     if not api_key:
-        st.error("Admin Access Key가 필요합니다.")
+        st.error("관리자 액세스 키가 필요합니다.")
     elif not user_input and not uploaded_file:
         st.warning("분석할 데이터를 제공해 주십시오.")
     else:
@@ -159,9 +159,9 @@ if st.button("🚨 정밀 분석 리포트 생성 (Generate Report)", use_contai
                 st.markdown(f'<div class="report-card">{response.choices[0].message.content}</div>', unsafe_allow_html=True)
                 st.balloons()
             except Exception as e:
-                st.error(f"Engine Error: {e}")
+                st.error(f"엔진 오류: {e}")
 
-# --- [하단 추천 솔루션: 요청사항 반영 완료] ---
+# --- [하단 추천 솔루션] ---
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.divider()
 st.markdown("#### 🛡️ 자산 보호를 위한 추천 솔루션")
