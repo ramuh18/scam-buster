@@ -15,7 +15,7 @@ try:
 except:
     api_key = st.sidebar.text_input("🔑 관리자 키 입력", type="password")
 
-# --- [사이드바] 수익형 모델 강화 버전 ---
+# --- [사이드바] 모바일 최적화 배너 버전 ---
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/2092/2092663.png", width=80) 
     st.title("🛡️ ScamBuster")
@@ -43,36 +43,28 @@ with st.sidebar:
     
     st.divider()
 
-    # 3. 프로젝트 후원 & 쿠팡 파트너스 (2열 배치)
+    # 3. 프로젝트 후원 & 쿠팡 파트너스 (모바일 나란히 배치)
     st.markdown("### 💖 프로젝트 후원")
     
-    # 두 개의 버튼을 나란히 배치
-    col_side_1, col_side_2 = st.columns(2)
-    
-    with col_side_1:
-        st.markdown(
-            """
-            <a href="https://www.coupang.com/np/search?component=&q=%ED%9A%A8%EB%8F%84%ED%8F%B0&channel=user" target="_blank">
-                <div style="background-color: #f68b1e; color: white; padding: 10px; border-radius: 8px; text-align: center; font-size: 12px; font-weight: bold; height: 60px; display: flex; align-items: center; justify-content: center;">
+    # 모바일에서도 무조건 나란히 보이게 하는 HTML/CSS
+    st.markdown(
+        """
+        <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center;">
+            <a href="https://www.coupang.com/np/search?component=&q=%ED%9A%A8%EB%8F%84%ED%8F%B0&channel=user" target="_blank" style="text-decoration: none; flex: 1;">
+                <div style="background-color: #E60012; color: white; padding: 10px 5px; border-radius: 8px; text-align: center; font-size: 11px; font-weight: bold; height: 55px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
                     📱 보안<br>효도폰
                 </div>
             </a>
-            """, unsafe_allow_html=True
-        )
-        
-    with col_side_2:
-        st.markdown(
-            """
-            <a href="https://www.coupang.com/np/search?component=&q=%EC%82%AC%EC%83%9D%ED%99%9C%EB%B3%B4%ED%98%B8%ED%95%84%EB%A6%84&channel=user" target="_blank">
-                <div style="background-color: #0050FF; color: white; padding: 10px; border-radius: 8px; text-align: center; font-size: 12px; font-weight: bold; height: 60px; display: flex; align-items: center; justify-content: center;">
+            <a href="https://www.coupang.com/np/search?component=&q=%EC%82%AC%EC%83%9D%ED%99%9C%EB%B3%B4%ED%98%B8%ED%95%84%EB%A6%84&channel=user" target="_blank" style="text-decoration: none; flex: 1;">
+                <div style="background-color: #0050FF; color: white; padding: 10px 5px; border-radius: 8px; text-align: center; font-size: 11px; font-weight: bold; height: 55px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
                     👀 사생활<br>보호필름
                 </div>
             </a>
-            """, unsafe_allow_html=True
-        )
+        </div>
+        """, unsafe_allow_html=True
+    )
     
     st.markdown("<br>", unsafe_allow_html=True)
-    # 쿠팡 파트너스 필수 문구 (사이드바 강조)
     st.caption("이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.")
 
 # --- [메인 화면] ---
